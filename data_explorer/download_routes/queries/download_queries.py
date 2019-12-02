@@ -31,7 +31,7 @@ def calendar_tab(tab_name):
 		SELECT offering_id, course_title_en, course_title_fr, course_code, instructor_names,
 			confirmed_count, cancelled_count, waitlisted_count, no_show_count, business_type,
 			event_description, fiscal_year, quarter, start_date, end_date, client, offering_status,
-			offering_language, offering_region_en, offering_region_fr,offering_province_en,
+			offering_language, offering_region_en, offering_region_fr, offering_province_en,
 			offering_province_fr, offering_city_en, offering_city_fr, offering_lat, offering_lng
 		FROM offerings
 		ORDER BY 12 ASC, 14 ASC, 4 ASC;
@@ -67,9 +67,9 @@ def general_tab(course_code):
 def comments_tab(course_code):
 	"""Query raw data used for the Comments tab."""
 	query = """
-		SELECT course_code, survey_id, fiscal_year, quarter, learner_classif,
-			offering_city_en, offering_city_fr, original_question, short_question, 
-			text_answer, overall_satisfaction, stars, magnitude
+		SELECT course_code, survey_id, fiscal_year, quarter, offering_city_en,
+			offering_city_fr, original_question, short_question, text_answer,
+			overall_satisfaction, stars, magnitude
 		FROM comments
 		WHERE course_code = %s;
 	"""
