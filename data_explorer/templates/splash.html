@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+	<head>
+		{% include 'includes/_head.html' %}
+		<link rel="stylesheet" href= "{{ url_for('static', filename='splash/theme-sp-pe.min.css') }}" />
+		<link rel="stylesheet" href= "{{ url_for('static', filename='splash/theme.min.css') }}" />
+	</head>
+	<body vocab="https://schema.org/" typeof="WebPage">
+		<header role="banner">
+			<div id="wb-bnr" class="container">
+				<object id="gcwu-sig" type="image/svg+xml" tabindex="-1" role="img" data="{{ url_for('static', filename='splash/sig-alt-en.svg') }}" aria-label="Government of Canada"></object>
+			</div>
+		</header>
+		<main role="main" property="mainContentOfPage" class="container">
+			<div class="col-md-12">
+				<h1>Welcome / <span lang="fr">Bienvenue</span></h1>
+				<section class="col-md-6">
+					<h2>CSPS<br />Data Explorer</h2>
+					<a class="btn btn-lg btn-primary btn-block" href="{{ url_for('main.setlang', lang='en') }}">English</a>
+				</section>
+				<section class="col-md-6" lang="fr">
+					<h2>Explorateur de données<br />de l'EFPC</h2>
+					<a class="btn btn-lg btn-primary btn-block" href="{{ url_for('main.setlang', lang='fr') }}">Français</a>
+				</section>
+			</div>
+		</main>
+	</body>
+</html>

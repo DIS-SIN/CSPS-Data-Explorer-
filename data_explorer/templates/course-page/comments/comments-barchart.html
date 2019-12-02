@@ -1,0 +1,61 @@
+<table class="stars-bar-chart">
+	<thead>
+		<tr>
+			<td colspan="2">
+				<h3>
+					<!-- Title added dynamically by jQuery in script tag below -->
+					<span></span>
+					<img class="computed-score-tooltip" class="inline-tooltip" src="{{ url_for('static', filename='tooltip.png') }}" alt="{{ _('Tooltip') }}" />
+				</h3>
+			</td>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td class="col-xs-2 text-center">{{ _('Five') }}</td>
+			<td class="col-xs-10">
+				<a class="bar-stars-five" href="" data-target=".{{ comment_name }}-comments" data-value="5">
+					<!-- Width and text added dynamically by jQuery in script tag below -->
+					<span class="bar-fill" style="width: 0%;"></span>
+					<span class="bar-label"></span>
+				</a>
+			</td>
+		</tr>
+		<tr>
+			<td class="col-xs-2 text-center">{{ _('Four') }}</td>
+			<td class="col-xs-10">
+				<a class="bar-stars-four" href="" data-target=".{{ comment_name }}-comments" data-value="4">
+					<span class="bar-fill" style="width: 0%;"></span>
+					<span class="bar-label"></span>
+				</a>
+			</td>
+		</tr>
+		<tr>
+			<td class="col-xs-2 text-center">{{ _('Three') }}</td>
+			<td class="col-xs-10">
+				<a class="bar-stars-three" href="" data-target=".{{ comment_name }}-comments" data-value="3">
+					<span class="bar-fill" style="width: 0%;"></span>
+					<span class="bar-label"></span>
+				</a>
+			</td>
+		</tr>
+		<tr>
+			<td class="col-xs-2 text-center">{{ _('Two') }}</td>
+			<td class="col-xs-10">
+				<a class="bar-stars-two" href="" data-target=".{{ comment_name }}-comments" data-value="2">
+					<span class="bar-fill" style="width: 0%;"></span>
+					<span class="bar-label"></span>
+				</a>
+			</td>
+		</tr>
+		<tr>
+			<td class="col-xs-2 text-center">{{ _('One') }}</td>
+			<td class="col-xs-10">
+				<a class="bar-stars-one" href="" data-target=".{{ comment_name }}-comments" data-value="1">
+					<span class="bar-fill" style="width: 0%;"></span>
+					<span class="bar-label"></span>
+				</a>
+			</td>
+		</tr>
+	</tbody>
+</table>

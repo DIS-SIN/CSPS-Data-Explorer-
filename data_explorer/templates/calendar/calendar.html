@@ -1,0 +1,655 @@
+{% extends 'layout.html' %}
+
+{% block head %}
+	<!-- jQuery UI -->
+	<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+	<!-- DataTables -->
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
+	<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+{% endblock head %}
+
+{% block body %}
+	<div id="calendar-page" class="container">
+		<h3>{{ _('Search for offerings by date, instructor, and more.') }}</h3>
+		
+		<!-- User inputs -->
+		<div id="calendar-inputs">
+			<!-- Start date picker -->
+			<div id="datepicker-start"><span>{{ _('From:') }}</span></div>
+			<!-- Button to trigger modal -->
+			<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#calendar-modal">{{ _('Optional Filters') }}</button>
+			<!-- End date picker -->
+			<div id="datepicker-end"><span>{{ _('To:') }}</span></div>
+		</div>
+		
+		<!-- Map showing offerings that match criteria -->
+		<div id="calendar-map"></div>
+		<!-- Map's legend -->
+		<div id="legend">
+			<div id="legend-title">
+				<h4>{{ _('Legend') }}</h4>
+			</div>
+			<div id="legend-contents">
+				<div>
+					<img class="legend-marker" src="https://maps.google.com/mapfiles/ms/icons/red-dot.png" alt="{{ _('Red Marker') }}" />
+					<p>1-4</p>
+				</div>
+				<div>
+					<img class="legend-marker" src="https://maps.google.com/mapfiles/ms/icons/orange-dot.png" alt="{{ _('Orange Marker') }}" />
+					<p>5-9</p>
+				</div>
+				<div>
+					<img class="legend-marker" src="https://maps.google.com/mapfiles/ms/icons/green-dot.png" alt="{{ _('Green Marker') }}" />
+					<p>10-19</p>
+				</div>
+				<div>
+					<img class="legend-marker" src="https://maps.google.com/mapfiles/ms/icons/blue-dot.png" alt="{{ _('Blue Marker') }}" />
+					<p>20+</p>
+				</div>
+			</div>
+		</div>
+		
+		<!-- Optional filters modal -->
+		<div class="modal fade" id="calendar-modal" tabindex="-1" role="dialog" aria-labelledby="calendar-modal-label">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="{{ _('Close') }}"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="calendar-modal-label">{{ _('Optional Filters') }}</h4>
+					</div>
+					<div class="modal-body">
+						<form id="modal-form">
+							<table class="table">
+								<tbody>
+									<tr>
+										<td>{{ _('Business Line') }}</td>
+										<td>
+											<select id="modal-business-line">
+												<option value="">{{ _('All') }}</option>
+												<option value="{{ _('Digital Academy') }}">{{ _('Digital Academy') }}</option>
+												<option value="{{ _('GC and Public Sector Skills') }}">{{ _('GC and Public Sector Skills') }}</option>
+												<option value="{{ _('Indigenous Learning') }}">{{ _('Indigenous Learning') }}</option>
+												<option value="{{ _('Respectful and Inclusive Workplace') }}">{{ _('Respectful and Inclusive Workplace') }}</option>
+												<option value="{{ _('Transferable Skills') }}">{{ _('Transferable Skills') }}</option>
+											</select>
+										</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>{{ _('Course Code') }}</td>
+										<td><input type="text" value="" id="modal-course-code" /></td>
+										<td class="clear-sibling-input" data-target="modal-course-code">&times;</td>
+									</tr>
+									<tr>
+										<td>{{ _('Instructor') }}</td>
+										<td><input type="text" value="" id="modal-instructor" /></td>
+										<td class="clear-sibling-input" data-target="modal-instructor">&times;</td>
+									</tr>
+									<tr>
+										<td>{{ _('Exclude Cancelled Offerings') }}</td>
+										<td>
+											<select id="modal-exclude-cancelled">
+												<option value="false">{{ _('No') }}</option>
+												<option value="true">{{ _('Yes') }}</option>
+											</select>
+										</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>{{ _('Show Only Client Requests') }}</td>
+										<td>
+											<select id="modal-clients-only">
+												<option value="false">{{ _('No') }}</option>
+												<option value="true">{{ _('Yes') }}</option>
+											</select>
+										</td>
+										<td></td>
+									</tr>
+								</tbody>
+							</table>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" data-dismiss="modal" id="modal-close">{{ _('Close') }}</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<!-- More info modal -->
+		<div class="modal fade" id="more-info-modal" tabindex="-1" role="dialog" aria-labelledby="more-info-modal-label">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="{{ _('Close') }}"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="more-info-modal-label">{{ _('Additional Info') }}</h4>
+					</div>
+					
+					<table class="table table-hover">
+						<tbody>
+							<!-- All fields not displayed in table -->
+							<tr><td>{{ _('Offering ID') }}</td><td id="offering_id"></td></tr>
+							<tr><td>{{ _('Start Date') }}</td><td id="start_date"></td></tr>
+							<tr><td>{{ _('End Date') }}</td><td id="end_date"></td></tr>
+							<tr><td>{{ _('Business Line') }}</td><td id="business_line"></td></tr>
+							<tr><td>{{ _('Status') }}</td><td id="offering_status"></td></tr>
+							<tr><td>{{ _('Language') }}</td><td id="offering_language"></td></tr>
+							<tr><td>{{ _('City') }}</td><td id="offering_city"></td></tr>
+							<tr><td>{{ _('Province') }}</td><td id="offering_province"></td></tr>
+							<tr><td>{{ _('Region') }}</td><td id="offering_region"></td></tr>
+							<tr><td>{{ _('Confirmed') }}</td><td id="confirmed_count"></td></tr>
+							<tr><td>{{ _('Cancelled') }}</td><td id="cancelled_count"></td></tr>
+							<tr><td>{{ _('Waitlisted') }}</td><td id="waitlisted_count"></td></tr>
+							<tr><td>{{ _('No-Shows') }}</td><td id="no_show_count"></td></tr>
+							<tr><td>{{ _('Event Description') }}</td><td id="event_description"></td></tr>
+							<tr><td>{{ _('Client Code') }}</td><td id="client_dept_code"></td></tr>
+							<tr><td>{{ _('Client Name') }}</td><td id="client_dept_name"></td></tr>
+						</tbody>
+					</table>
+					
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" data-dismiss="modal">{{ _('Close') }}</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<!-- Offerings table legend -->
+		<table class="schedule-legend">
+			<thead>
+				<tr>
+					<td colspan="2">
+						<h3>{{ _('Results:') }} <span id="calendar-results-count">0</span> <span id="calendar-results-label"></span></h3>
+					</td>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td class="col-xs-1"><div class="color-swatch swatch-danger"></div></td>
+					<td class="col-xs-11">{{ _('Offerings that have been cancelled.') }}</td>
+				</tr>
+				<tr>
+					<td class="col-xs-1"><div class="color-swatch swatch-warning"></div></td>
+					<td class="col-xs-11">{{ _('Offerings taking place in the next 30 days with fewer than 10 confirmed registrations.') }}</td>
+				</tr>
+				<tr>
+					<td class="col-xs-1"><div class="color-swatch swatch-success"></div></td>
+					<td class="col-xs-11">{{ _('Offerings with more than 10 confirmed registrations and / or that are more than 30 days away.') }}</td>
+				</tr>
+				<tr>
+					<td class="col-xs-1"><div class="color-swatch swatch-past"></div></td>
+					<td class="col-xs-11">{{ _('Offerings that have already taken place.') }}</td>
+				</tr>
+			</tbody>
+		</table>
+		
+		<!-- Offerings table -->
+		<table id="calendar-results" class="table">
+			<thead>
+				<tr>
+					<th>{{ _('Course Code') }}</th>
+					<th>{{ _('Course Title') }}</th>
+					<th>{{ _('City') }}</th>
+					<th>{{ _('Instructor(s)') }}</th>
+					<th>{{ _('Business Type') }}</th>
+					<th>{{ _('Confirmed') }}</th>
+					<th>{{ _('More') }}</th>
+					<th>{{ _('Offering ID') }}</th>
+					<th>{{ _('Start Date') }}</th>
+					<th>{{ _('End Date') }}</th>
+					<th>{{ _('Business Line') }}</th>
+					<th>{{ _('Status') }}</th>
+					<th>{{ _('Language') }}</th>
+					<th>{{ _('City') }}</th>
+					<th>{{ _('Province') }}</th>
+					<th>{{ _('Region') }}</th>
+					<th>{{ _('Confirmed') }}</th>
+					<th>{{ _('Cancelled') }}</th>
+					<th>{{ _('Waitlisted') }}</th>
+					<th>{{ _('No-Shows') }}</th>
+					<th>{{ _('Event Description') }}</th>
+					<th>{{ _('Client Code') }}</th>
+					<th>{{ _('Client Name') }}</th>
+					<th>background_color</th>
+				</tr>
+			</thead>
+			<tbody id="registhor-target"></tbody>
+		</table>
+		
+		<!-- Import custom macro for adding 'Download raw data' button -->
+		{% from "includes/_formhelpers.html" import download_raw %}
+		<p class="download-raw-outer">
+			{{ download_raw(url_for('downloads.download_calendar'), _('Download all raw data')) }}
+		</p>
+	</div>
+	
+	<script defer>
+		// Update ::after pseudo-element in navbar
+		$('.navbar-link').removeClass('active');
+		$('#nav-calendar').addClass('active');
+		
+		
+		/***** Date pickers *****/
+		// Store value of date pickers upon change
+		var pickerStartDate, pickerEndDate;
+		var cityCounts = [];
+		
+		// Outline structure for date pickers
+		function addDatePicker(id) {
+			$(id).datepicker({
+				dateFormat: 'yy-mm-dd',
+				defaultDate: null,
+				onSelect: function(newVal, picker) {
+					if (picker.id === 'datepicker-start') {
+						pickerStartDate = newVal;
+					}
+					if (picker.id === 'datepicker-end') {
+						pickerEndDate = newVal;
+					}
+					// If both dates are set, hit Registhor
+					if (pickerStartDate && pickerEndDate) {
+						runRegisthorQueries();
+					}
+				},
+				// Recall that months are 0-indexed in JS
+				minDate: new Date(2018, 3, 1),
+				maxDate: new Date(2021, 2, 31),
+				showButtonPanel: false,
+				showOtherMonths: true,
+				selectOtherMonths: true
+			});
+		}
+		
+		// English date picker arguments
+		$.datepicker.regional['en'] = {
+			dayNamesMin: ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
+			dayNamesShort: ['S', 'M', 'T', 'W', 'T', 'F', 'S']
+		}
+		
+		// French date picker arguments
+		$.datepicker.regional['fr'] = {
+			closeText: 'Fermer',
+			currentText: '',
+			dateFormat: 'yy-mm-dd',
+			dayNames: ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'],
+			dayNamesMin: ['D', 'L', 'M', 'M', 'J', 'V', 'S'],
+			dayNamesShort: ['D', 'L', 'M', 'M', 'J', 'V', 'S'],
+			firstDay: 0,
+			isRTL: false,
+			monthNames: ['janvier', 'février', 'mars', 'avril', 'mai', 'juin',
+						 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'],
+			monthNamesShort: ['janv.', 'févr.', 'mars', 'avr.', 'mai', 'juin',
+							  'juil.', 'août', 'sept.', 'oct.', 'nov.', 'déc.' ],
+			nextText: 'Suivant',
+			prevText: 'Précédent',
+			showMonthAfterYear: false,
+			weekHeader: 'Sem.',
+			yearSuffix: ''
+		};
+		
+		// Set date pickers' language
+		{% set lang = 'fr' if request.cookies.get('lang', None) == 'fr' else 'en' %}
+		$.datepicker.setDefaults($.datepicker.regional['{{ lang }}']);
+		
+		// Add date pickers to DOM
+		addDatePicker('#datepicker-start');
+		addDatePicker('#datepicker-end');
+		/***** End date pickers *****/
+		
+		
+		/***** Modal *****/
+		function getModalOptions() {
+			return {
+				businessLine: encodeURIComponent($('#modal-business-line').val()),
+				courseCode: $('#modal-course-code').val(),
+				instructorName: encodeURIComponent($('#modal-instructor').val()),
+				excludeCancelled: $('#modal-exclude-cancelled').val(),
+				clientsOnly: $('#modal-clients-only').val()
+			}
+		}
+		
+		// Little 'x' button to clear text box
+		$('.clear-sibling-input').on('click', function() {
+			$('#' + $(this).attr('data-target')).val('');
+		});
+		
+		// Upon clicking the modal's close button, run queries
+		$('#modal-close').on('click', function() { runRegisthorQueries(); });
+		/***** End modal *****/
+		
+		
+		/***** Table *****/
+		// Add column names in attribute 'data-title' for display on mobile
+		var columnNameMap = {
+			'0': "{{ _('Course Code') }}",
+			'1': "{{ _('Course Title') }}",
+			'2': "{{ _('City') }}",
+			'3': "{{ _('Instructor(s)') }}",
+			'4': "{{ _('Business Type') }}",
+			'5': "{{ _('Confirmed') }}",
+			'6': "{{ _('More') }}",
+			'7': "{{ _('Offering ID') }}",
+			'8': "{{ _('Start Date') }}",
+			'9': "{{ _('End Date') }}",
+			'10': "{{ _('Business Line') }}",
+			'11': "{{ _('Status') }}",
+			'12': "{{ _('Language') }}",
+			'13': "{{ _('City') }}",
+			'14': "{{ _('Province') }}",
+			'15': "{{ _('Region') }}",
+			'16': "{{ _('Confirmed') }}",
+			'17': "{{ _('Cancelled') }}",
+			'18': "{{ _('Waitlisted') }}",
+			'19': "{{ _('No-Shows') }}",
+			'20': "{{ _('Event Description') }}",
+			'21': "{{ _('Client Code') }}",
+			'22': "{{ _('Client Name') }}",
+			'23': 'background_color'
+		}
+		
+		// Make table sortable
+		// Store in global var as to add new data, need to use the DataTables
+		// API rather than just adding DOM elements
+		var calendarResults = $('#calendar-results').DataTable({
+			// Sort by course code; disable all extraneous features
+			autoWidth: false,
+			columnDefs: [
+				{
+					targets: [0],
+					createdCell: function(td, cellData, rowData, row, col) {
+						$(td).parent().css('background-color', rowData[23]);
+						$(td).attr('data-title', columnNameMap[col]);
+						$(td).html('<a href=\"{{ url_for('course.course_result') }}' + '?course_code=' + cellData + '\">'+ cellData + '</a>');
+					}
+				},
+				{
+					targets: [5],
+					className: 'dt-center'
+				},
+				{
+					targets: '_all',
+					// Add attr 'data-title' to cells
+					// Used in CSS technique to collapse table rows into cards on mobile
+					createdCell: function(td, cellData, rowData, row, col) {
+						$(td).parent().css('background-color', rowData[23])
+						$(td).attr('data-title', columnNameMap[col]);
+					}
+				},
+				// Hide columns displayed only in modal
+				{
+					targets: [7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23],
+					visible: false
+				}
+			],
+			info: false,
+			language: {
+				emptyTable: "{{ _('No offerings match criteria.') }}"
+			},
+			// Preserve order from AJAX
+			order: [],
+			paging: false,
+			scrollX: false,
+			searching: false,
+			serverSide: false,
+			stateSave: false
+		});
+		
+		// Listener to open the 'More Info' modal
+		$('#calendar-results').on('click', "[data-title='More'], [data-title='Plus']", function() {
+			var currentRow = $(this).closest("tr");
+			var rowData = $('#calendar-results').DataTable().row(currentRow).data();
+			// Update modal with data from relevant row
+			$('#offering_id').text(rowData[7]);
+			$('#start_date').text(rowData[8]);
+			$('#end_date').text(rowData[9]);
+			$('#business_line').text(rowData[10]);
+			$('#offering_status').text(rowData[11]);
+			$('#offering_language').text(rowData[12]);
+			$('#offering_city').text(rowData[13]);
+			$('#offering_province').text(rowData[14]);
+			$('#offering_region').text(rowData[15]);
+			$('#confirmed_count').text(rowData[16]);
+			$('#cancelled_count').text(rowData[17]);
+			$('#waitlisted_count').text(rowData[18]);
+			$('#no_show_count').text(rowData[19]);
+			$('#event_description').text(rowData[20]);
+			$('#client_dept_code').text(rowData[21]);
+			$('#client_dept_name').text(rowData[22]);
+			// Show modal
+			$('#more-info-modal').modal('toggle');
+		});
+		
+		// Replace empty string with a hyphen for CSS on mobile
+		function handleEmptyString(myString) {
+			if (myString === '') { return '-'; }
+			return myString;
+		}
+		/***** End table *****/
+		
+		
+		/***** Registhor queries *****/
+		// Update span indicating number of offerings that match criteria
+		function updateOfferingTotal() {
+			var totalOfferings = 0;
+			for (var i = 0; i < cityCounts.length; i++) {
+				totalOfferings = totalOfferings + cityCounts[i]['count'];
+			}
+			var totalLabel = (totalOfferings === 1) ? "{{ _('Offering') }}" : "{{ _('Offerings') }}";
+			$('#calendar-results-count').text(totalOfferings);
+			$('#calendar-results-label').text(totalLabel);
+		}
+		
+		function runRegisthorQueries() {
+			getOfferingsRegisthor();
+			getCountsRegisthor()
+		}
+		
+		function getOfferingsRegisthor() {
+			// Get values from modal
+			var modalOptions = getModalOptions();
+			
+			$.ajax({
+				{% set lang = 'fr' if request.cookies.get('lang', None) == 'fr' else 'en' %}
+				url: 'https://registhor.da-an.ca/api/v1/offerings/offering-information?key={{ REGISTHOR_API_KEY }}&date_1=' +
+					 pickerStartDate + '&date_2=' + pickerEndDate + '&course_code=' + modalOptions.courseCode +
+					 '&instructor_name=' + modalOptions.instructorName + '&exclude_cancelled=' + modalOptions.excludeCancelled +
+					 '&business_line=' + modalOptions.businessLine + '&clients_only=' + modalOptions.clientsOnly + '&lang={{ lang }}',
+				type: 'GET',
+				dataType: 'json',
+				success: function(resp) {
+					if (resp.status === 'OK') {
+						// Clear previous entries
+						calendarResults.clear();
+						$('#registhor-target').empty();
+						
+						// Add response to DataTable
+						$.each(resp.results, function(i, item) {
+							calendarResults.row.add([
+								// Due to CSS on mobile, if blank, rows still need
+								// at least one character for proper row height
+								handleEmptyString(item.course_code),
+								handleEmptyString(item.course_title),
+								handleEmptyString(item.offering_city),
+								handleEmptyString(item.instructor_names),
+								handleEmptyString(item.business_type),
+								handleEmptyString(item.confirmed_count),
+								'&nbsp;',
+								// Modal contents beyond this point
+								handleEmptyString(item.offering_id),
+								handleEmptyString(item.start_date),
+								handleEmptyString(item.end_date),
+								handleEmptyString(item.business_line),
+								handleEmptyString(item.offering_status),
+								handleEmptyString(item.offering_language),
+								handleEmptyString(item.offering_city),
+								handleEmptyString(item.offering_province),
+								handleEmptyString(item.offering_region),
+								handleEmptyString(item.confirmed_count),
+								handleEmptyString(item.cancelled_count),
+								handleEmptyString(item.waitlisted_count),
+								handleEmptyString(item.no_show_count),
+								handleEmptyString(item.event_description),
+								handleEmptyString(item.client_dept_code),
+								handleEmptyString(item.client_dept_name),
+								item.background_color
+							]);
+						});
+						
+						// Refresh DataTable
+						calendarResults.draw();
+					}
+				}
+			});
+		}
+		
+		function getCountsRegisthor() {
+			// Get values from modal
+			var modalOptions = getModalOptions();
+			$.ajax({
+				{% set lang = 'fr' if request.cookies.get('lang', None) == 'fr' else 'en' %}
+				url: 'https://registhor.da-an.ca/api/v1/offerings/counts-by-city?key={{ REGISTHOR_API_KEY }}&date_1=' +
+					 pickerStartDate + '&date_2=' + pickerEndDate + '&course_code=' + modalOptions.courseCode +
+					 '&instructor_name=' + modalOptions.instructorName + '&exclude_cancelled=' + modalOptions.excludeCancelled +
+					 '&business_line=' + modalOptions.businessLine + '&clients_only=' + modalOptions.clientsOnly + '&lang={{ lang }}',
+				type: 'GET',
+				dataType: 'json',
+				success: function(resp) {
+					if (resp.status === 'OK') {
+						cityCounts = resp.results;
+						updateOfferingTotal();
+						initMap();
+					}
+				}
+			});
+		}
+		/***** End registhor queries *****/
+		
+		
+		/***** Map *****/
+		// Array to store markers' InfoWindows
+		var infoWindowArray = [];
+		
+		// Close all open InfoWindows
+		function closeInfoWindows() {
+			for (var i = 0; i < infoWindowArray.length; i++) {
+				infoWindowArray[i].close();
+			}
+		}
+		
+		// Function to add marker
+		function addMarker(city_name, count, lat, lng, map) {
+			// Disregard cities lacking lat, lng values e.g. 'webcast'
+			if (lat === '' || lng === '') { return; }
+			
+			// Determine marker color based of number of offerings
+			var color;
+			if (count < 5) {
+				color = "red";
+			} else if(count >= 5 && count < 10) {
+				color = "orange";
+			} else if(count >= 10 && count < 20) {
+				color = "green";
+			} else if(count >= 20) {
+				color = "blue";
+			} else {
+				color = "red"
+			}
+			// Add marker
+			var marker = new google.maps.Marker({
+				position: {lat: lat, lng: lng},
+				map: map,
+				icon: 'https://maps.google.com/mapfiles/ms/icons/' + color + '-dot.png'
+			});
+			// Add tooltip
+			// Add space before colon if lang == 'fr'
+			{% set lang = 'fr' if request.cookies.get('lang', None) == 'fr' else 'en' %}
+			{% if lang == 'fr' %}
+				var contentString = city_name + ' : ' + String(count);
+			{% else %}
+				var contentString = city_name + ': ' + String(count);
+			{% endif %}
+			var infoWindow = new google.maps.InfoWindow({
+				content: contentString
+			});
+			infoWindowArray.push(infoWindow);
+			// Show InfoWindow upon click
+			marker.addListener('click', function() {
+				closeInfoWindows();
+				infoWindow.open(map, marker);
+			});
+		}
+		
+		function initMap() {
+			// Set zoom level based on viewport width
+			// Using standard Bootstrap breakpoints
+			var mapZoom;
+			var mapCenter;
+			var xlBool = window.matchMedia('(min-width: 1200px)');
+			var lgBool = window.matchMedia('(min-width: 992px)');
+			var mdBool = window.matchMedia('(min-width: 768px)');
+			var smBool = window.matchMedia('(min-width: 576px)');
+			
+			// Check in order of most to least stringent
+			if (xlBool.matches) {
+				mapZoom = 4.0;
+				mapCenter = {lat: 61.0, lng: -96.0};
+			} else if (lgBool.matches) {
+				mapZoom = 3.7;
+				mapCenter = {lat: 63.0, lng: -96.0};
+			} else if (mdBool.matches) {
+				mapZoom = 3.5;
+				mapCenter = {lat: 63.0, lng: -96.0};
+			} else if (smBool.matches) {
+				mapZoom = 3.2;
+				mapCenter = {lat: 64.0, lng: -96.0};
+			} else {
+				// Default to level 3 zoom
+				mapZoom = 2.7;
+				mapCenter = {lat: 68.0, lng: -96.0};
+			}
+			
+			// Map options
+			var options = {
+				zoom: mapZoom,
+				center: mapCenter,
+				// Show / hide UI controls
+				fullscreenControl: false,
+				mapTypeControl: false,
+				streetViewControl: false,
+				zoomControl: true
+			};
+			
+			// Instantiate
+			var map = new google.maps.Map(document.getElementById('calendar-map'), options);
+			
+			// Loop through list of cities and add to map
+			for (var i = 0; i < cityCounts.length; i++) {
+				addMarker(cityCounts[i]['offering_city'], cityCounts[i]['count'], cityCounts[i]['offering_lat'], cityCounts[i]['offering_lng'], map);
+			}
+		}
+		/***** End map *****/
+		
+		
+		/***** Intial API call upon page load *****/
+		// Helper function: Registhor accepts dates in standard YYYY-MM-DD ISO format
+		function formatDateRegisthor(myDate) {
+			// Months are 0-indexed in JS
+			return myDate.getFullYear() + '-' + (myDate.getMonth() + 1) + '-' + myDate.getDate();
+		}
+		
+		$( document ).ready(function() {
+			pickerStartDate = formatDateRegisthor($('#datepicker-start').datepicker('getDate'));
+			pickerEndDate = formatDateRegisthor($('#datepicker-end').datepicker('getDate'));
+			runRegisthorQueries();
+		});
+		/***** End initial API call *****/
+	</script>
+	
+	<!-- Load script from Google and pass API key -->
+	{% if lang == 'fr' %}
+		<script async defer src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAPS_API_KEY }}&callback=initMap&language=fr"></script>
+	{% else %}
+		<script async defer src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAPS_API_KEY }}&callback=initMap"></script>
+	{% endif %}
+{% endblock body %}

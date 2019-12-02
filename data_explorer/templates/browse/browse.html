@@ -1,0 +1,60 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+	<div id="browse-page" class="container">
+		<h3>{{ _('Browse courses by business line and provider.') }}</h3>
+		<p class="sub-heading">{{ _('Note: If you\'re the owner of an unclaimed course, please contact <a href="mailto:csps.lpb.curriculum.dgpa.efpc@canada.ca">Curriculum Management</a>.') }}</p>
+		
+		{% for business_line, business_line_dict in pass_dict.items() %}
+			<!-- Set variable to store outer loop's counter -->
+			{% set outer_loop = loop %}
+			
+			<!-- Button for Business Line -->
+			<button class="btn btn-primary" data-toggle="collapse" data-target="#bus-line-{{ outer_loop.index }}">
+				<span class="browse-page-count-label">{{ business_line }}</span><span class="browse-page-count">{{ business_line_dict|nested_dict_len }}</span>
+				<span class="glyphicon glyphicon-plus"></span>
+				<span class="glyphicon glyphicon-minus"></span>
+			</button>
+			
+			<div id="bus-line-{{ outer_loop.index }}" class="collapse" style="overflow: hidden;">
+				{% for provider, provider_dict in business_line_dict.items() %}
+					<!-- Set variable to store outer loop's counter -->
+					{% set inner_loop = loop %}
+					
+					<!-- Button for Provider -->
+					<button class="btn btn-success" data-toggle="collapse" data-target="#bus-line-{{ outer_loop.index }} #provider-{{ inner_loop.index }}">
+						<span class="browse-page-count-label">{{ provider }}</span><span class="browse-page-count" style="float: right;">{{ provider_dict|length }}</span>
+					</button>
+					
+					<!-- Display course codes and titles in table -->
+					<div id="provider-{{ inner_loop.index }}" class="collapse">
+						<table class="table">
+							<tbody>
+								{% for course in provider_dict %}
+									<tr>
+										<!-- .table-link uses ::before pseudo-element to make entire row clickable -->
+										<td class="col-xs-1"><a class="table-link" href="{{ url_for('course.course_result') + '?course_code=' + course[0] }}"></a></td>
+										<td class="col-xs-1">{{ course[0] }}</td>
+										<td>{{ course[1] }}</td>
+									</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+					</div>
+				
+				{% endfor %}
+			</div>
+		{% endfor %}
+		
+		<!-- Import custom macro for adding 'Download raw data' button -->
+		{% from "includes/_formhelpers.html" import download_raw %}
+		<p class="download-raw-outer">
+			{{ download_raw(url_for('downloads.download_browse'), _('Download all raw data')) }}
+		</p>
+	</div>
+	<script defer>
+		// Update ::after pseudo-element in navbar
+		$('.navbar-link').removeClass('active');
+		$('#nav-browse').addClass('active');
+	</script>
+{% endblock body %}

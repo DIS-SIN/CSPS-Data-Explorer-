@@ -1,0 +1,12 @@
+<h1>{{ pass_dict.course_title }}</h1>
+
+<div class="offering-dash hideable">
+	{% include 'course-page/dashboards/offerings.html' %}
+	<!--
+	<h4>{{ _('The Offerings section is disabled for online courses as they have no physical location. Try an instructor-led course like D101 to see more.') }}</h4>
+	-->
+</div>
+
+<div class="learner-dash hideable">
+	{% include 'course-page/dashboards/learners.html' %}
+</div>

@@ -1,0 +1,1005 @@
+/***** Global *****/
+html {
+	position: relative;
+	min-height: 100%;
+	/* Explicitly declare so can be referenced by rem units */
+	font-size: 16px;
+}
+body {
+	font-family: Helvetica, sans-serif;
+	color: #333;
+	font-size: 1rem;
+	/* Same as height of footer */
+	margin-bottom: 3.75rem;
+}
+a {
+	color: #066169;
+}
+h1 {
+	color: #066169;
+	margin: 1.25rem 0;
+}
+/* Center course titles on mobile */
+@media (max-width: 767px) {
+	section h1 {
+		text-align: center;
+	}
+}
+.jumbotron h1 {
+	text-align: left;
+	color: #066169;
+	font-size: 3.3rem;
+	margin-top: 0;
+}
+.jumbotron h3 {
+	margin-bottom: 0;
+}
+@media (max-width: 767px) {
+	.jumbotron h1,
+	.jumbotron h3 {
+		text-align: center;
+	}
+}
+li {
+	min-height: 1.5rem;
+}
+h4, p {
+	line-height: 1.5rem;
+}
+table {
+	margin: 1.25rem 0;
+}
+.table-tooltip {
+	width: 1.25rem;
+	margin-left: 1.25rem;
+	/* Remove from flow so won't affect centered text */
+	position: absolute;
+}
+.inline-tooltip {
+	width: 1.25rem;
+	margin-left: 0.3rem;
+}
+/* Hover over table rows */
+.table-hover tbody tr:hover {
+	background-color: #ffcc33;
+}
+/* Bootstrap tooltips */
+.tooltip-inner {
+	color: #fff;
+	background-color: #232323;
+}
+/* Custom colour when user highlights text */
+::selection {
+	background-color: #ffcc33;
+}
+/* Button to download each tab's raw data */
+.download-raw-outer {
+	width: 100%;
+	text-align: right;
+	margin: 0.5rem 0;
+}
+.download-raw {
+	display: block;
+	margin-bottom: 0.2rem;
+}
+.download-raw span {
+	margin-left: 0.5rem;
+}
+/***** End global *****/
+
+
+
+/***** Footer *****/
+footer {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	/* Same as body's margin-bottom */
+	height: 3.75rem;
+}
+footer .container {
+	height: 100%;
+	border-top: 0.25rem solid #066169;
+}
+#footer-contents {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	height: 100%;
+}
+/***** End footer *****/
+
+
+
+/***** Navbars *****/
+/* Both */
+.navbar-default {
+	border: none;
+	border-radius: 0;
+	margin: 0;
+}
+/* First navbar */
+#first-nav {
+	background-color: #000;
+}
+#first-nav a {
+	color: #fff;
+}
+#first-nav img {
+	height: 1.25rem;
+}
+/* Second navbar */
+#second-nav {
+	background-color: #232323;
+	padding: 2rem 0.6rem 0.6rem 0.6rem;
+}
+#second-nav a {
+	color: #fff;
+	font-size: 1.5rem;
+}
+/* Banner */
+/* Add an additional, identical parent div to
+ensure displays properly on IE11 */
+#outer-banner {
+	display: flex;
+	justify-content: center;
+	background-color: #232323;
+}
+#banner {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	min-height: 16rem;
+}
+#banner .container {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	align-items: center;
+	text-align: center;
+}
+#banner h1 {
+	font-size: 3rem;
+	color: #fff;
+	font-weight: 100;
+	margin: 1.25rem;
+}
+#banner img {
+	height: 11rem;
+}
+/* Center and shrink logo on mobile */
+@media (max-width: 767px) {
+	#banner .container {
+		flex-direction: column;
+	}
+	#banner img {
+		height: 9rem;
+	}
+}
+/* Transition links on hover */
+/* Don't show transition on mobile as navbar will be collapsed */
+@media (min-width: 768px) {
+	#second-nav a::after {
+		content: '';
+		display: block;
+		background-color: #ffcc33;
+		height: 4px;
+		width: 0%;
+		margin-top: 6px;
+		transition: width 450ms ease-in-out;
+	}
+	#second-nav a.active::after {
+		transition: none;
+	}
+	#second-nav a.active::after,
+	#second-nav a:hover::after {
+		width: 100%;
+	}
+}
+/* Hide first-nav's English / Français button on mobile */
+@media (max-width: 767px) {
+	#first-nav #lang-button-desktop {
+		display: none;
+	}
+}
+/* Hide second-nav's English / Français button on desktop */
+@media (min-width: 768px) {
+	#second-nav #lang-button-mobile {
+		display: none;
+	}
+}
+/***** End navbars *****/
+
+
+
+/***** About *****/
+#about-page h3,
+#about-page h4 {
+	line-height: 2rem;
+	margin: 1.5rem 0;
+	color: #066169;
+	text-align: left;
+}
+/* Center text on mobile */
+@media (max-width: 767px) {
+	#about-page h3 {
+		text-align: center;
+	}
+}
+#about-page p {
+	line-height: 2rem;
+	margin: 1.5rem 0;
+}
+#about-page li {
+	min-height: 2rem;
+}
+/***** End about *****/
+
+
+
+/***** Browse *****/
+#browse-page h3 {
+	line-height: 2rem;
+	margin: 1.5rem 0;
+	color: #066169;
+	text-align: left;
+}
+/* Center text on mobile */
+@media (max-width: 767px) {
+	#browse-page h3 {
+		text-align: center;
+	}
+}
+#browse-page .sub-heading {
+	line-height: 2rem;
+	margin: 1.5rem 0;
+}
+#browse-page .btn {
+	display: block;
+	width: 100%;
+	/* Only assign margin-bottom. Using margin-top causes jumping with
+	Bootstrap collapse */
+	margin-bottom: 0.75rem;
+	padding-left: 1rem;
+	line-height: 2.5rem;
+	text-align: left;
+	font-size: 1.1rem;
+	border-radius: 0.5rem;
+	/* Allow text to wrap to next line on narrow screens */
+	white-space: normal;
+}
+#browse-page .btn.btn-primary {
+	background-image: linear-gradient(to right, #066169, #39949c);
+}
+#browse-page table {
+	position: relative;
+	margin-bottom: 0.75rem;
+	margin-top: 0;
+}
+/* Make provider buttons + table slightly narrower and centered on
+tablet and desktop */
+@media (min-width: 768px) {
+	#browse-page .btn.btn-success,
+	#browse-page table {
+		width: 90%;
+		margin: 0 auto;
+		margin-bottom: 0.75rem;
+		margin-top: 0;
+	}
+}
+/* Explicitly declare table row height for vertically
+centering ::before and glyphs */
+#browse-page tr {
+	height: 2.5rem;
+}
+/* Use ::before pseudo-element to make entire table row a hyperlink
+as HTML specs prohibit wrapping <tr> in <a> */
+.table-link::before {
+	content: '';
+	display: block;
+	position: absolute;
+	left: 0;
+	width: 100%;
+	/* Same height as <tr> */
+	height: 2.5rem;
+}
+#browse-page tr:hover {
+	background-color: #ffcc33;
+}
+.glyphicon-minus,
+.glyphicon-plus {
+	float: right;
+	vertical-align: middle;
+	/* Same height as <tr> */
+	line-height: 2.5rem;
+}
+.glyphicon-minus {
+	display: none;
+}
+/* When lists expanded, hide plus glyph and show minus glyph */
+button[aria-expanded='false'] > span.glyphicon-plus,
+button[aria-expanded='true'] > span.glyphicon-minus {
+	display: inline;
+}
+button[aria-expanded='false'] > span.glyphicon-minus,
+button[aria-expanded='true'] > span.glyphicon-plus {
+	display: none;
+}
+/* Counts of courses within each category */
+.browse-page-count-label {
+	margin-right: 1rem;
+}
+.browse-page-count {
+	display: inline-block;
+	text-align: center;
+	background-color: rgba(255, 255, 255, 0.2);
+	color: #fff;
+	font-weight: bold;
+	border-radius: 50%;
+	min-width: 2.5rem;
+}
+/***** End browse *****/
+
+
+
+/***** Calendar *****/
+#calendar-page h3 {
+	line-height: 2rem;
+	margin: 1.5rem 0;
+	color: #066169;
+	text-align: left;
+}
+/* Center text on mobile */
+@media (max-width: 767px) {
+	#calendar-page h3 {
+		text-align: center;
+	}
+}
+/* Date pickers and other filters*/
+#calendar-inputs {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	align-items: center;
+	text-align: center;
+}
+#calendar-inputs button {
+	margin: 2rem 0 3rem 0;
+}
+/* Stack controls vertically on mobile */
+@media (max-width: 991px) {
+	#calendar-inputs {
+		flex-direction: column;
+	}
+}
+#datepicker-start,
+#datepicker-end {
+	margin-bottom: 2rem;
+}
+/* Customize appearance of date pickers*/
+/* Liberal use of '!important' as need to override jQuery UI which is
+exceptionally imported AFTER custom CSS due to file structure */
+.ui-datepicker-header {
+	background: #066169;
+	border: none;
+	color: #fff;
+}
+/* Previous month icon */
+.ui-icon-circle-triangle-w {
+	height: 1.5rem;
+	background: url(./plugins/calendar/previous_month_icon.svg) !important;
+}
+/* Next month icon */
+.ui-icon-circle-triangle-e {
+	height: 1.5rem;
+	background: url(./plugins/calendar/next_month_icon.svg) !important;
+}
+/* Change colour of previous, next month buttons on hover */
+.ui-datepicker-prev:hover,
+.ui-datepicker-next:hover {
+	background: #0aa4b1 !important;
+}
+.ui-state-default,
+.ui-state-highlight,
+.ui-state-active {
+	text-align: center !important;
+	background: none !important;
+	border: none !important;
+	border-radius: 50%;
+	height: 2rem;
+	width: 2rem;
+}
+.ui-state-active {
+	background-color: #066169 !important;
+	color: #fff !important;
+	font-weight: bold !important;
+}
+/* Days of week in different shade of black */
+th[scope="col"] {
+	color: #999;
+}
+/* Modal for optional filters */
+#modal-form td {
+	border: none;
+}
+#modal-form input,
+#modal-form select {
+	width: 100%;
+	height: 2rem;
+}
+/* Little 'x' button to clear adjacent text box */
+.clear-sibling-input {
+	color: #066169;
+	user-select: none;
+	font-size: 1.5rem;
+}
+.clear-sibling-input:hover {
+	cursor: pointer;
+}
+/* Calendar map */
+#calendar-map {
+	float: left;
+	height: 80vh;
+	width: 100%;
+}
+#calendar-map,
+#calendar-page #legend {
+	margin: 0 0 2rem 0;
+}
+/* Leave space for legend if screen both wide and tall enough to display alongside map */
+@media (min-width: 992px) and (min-height: 600px) {
+	#calendar-map {
+		width: 92%;
+	}
+	#legend {
+		display: block;
+	}
+}
+/* Calendar results table */
+#calendar-results {
+	margin-top: 0;
+}
+#calendar-results thead {
+	font-weight: bold;
+}
+#calendar-results tr {
+	min-height: 4rem;
+}
+#calendar-results td {
+	vertical-align: middle;
+}
+/* More info button in table */
+#calendar-results td[data-title="More"],
+#calendar-results td[data-title="Plus"] {
+	background-image: url(./plugins/calendar/additional_info_icon.svg);
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-size: 1.25rem;
+}
+@media (max-width: 991px) {
+	#calendar-results td[data-title="More"],
+	#calendar-results td[data-title="Plus"] {
+		background-position: right center;
+		margin-right: 0.5rem;
+	}
+}
+#calendar-results td[data-title="More"]:hover,
+#calendar-results td[data-title="Plus"]:hover {
+	cursor: pointer;
+}
+/* Additional Info modal */
+#more-info-modal tr td:first-child {
+	padding-left: 2rem;
+}
+#more-info-modal tr td:last-child {
+	padding-right: 2rem;
+}
+#more-info-modal tr:first-child td {
+	border-top: none;
+}
+#more-info-modal tr:last-child td  {
+	border-bottom: none;
+}
+/* Collapse table into cards on mobile */
+/* Same CSS for collapsing entries in 'Schedule' tab but with a different breakpoint */
+@media (max-width: 991px) {
+	#calendar-results table,
+	#calendar-results thead,
+	#calendar-results tbody,
+	#calendar-results tr,
+	#calendar-results td {
+		display: block;
+	}
+	#calendar-results thead {
+		display: none;
+	}
+	#calendar-results tr {
+		border: 1px solid #066169;
+		margin-bottom: 1.25rem;
+	}
+	#calendar-results tr {
+		position: relative;
+		padding-left: 8rem;
+	}
+	#calendar-results td {
+		text-align: right;
+	}
+	#calendar-results td::before {
+		content: attr(data-title);
+		position: absolute;
+		left: 0;
+		padding-left: 0.5rem;
+		font-weight: bold;
+	}
+	#calendar-results td:first-child {
+		border-top: none;
+	}
+	#calendar-results td:last-child {
+		border-bottom: none;
+	}
+}
+/***** End calendar *****/
+
+
+
+/***** Selection form *****/
+/* Consistent vertical gap between text, search bar, and buttons */
+#selection-form p {
+	margin-top: 0
+}
+#selection-form dd {
+	margin: 1rem 0;
+}
+/* Text */
+#selection-form h3 {
+	margin-top: 1.5rem;
+	margin-bottom: 0;
+	line-height: 2rem;
+	color: #066169;
+	text-align: left;
+}
+/* Buttons */
+.btn.btn-primary {
+	background-color: #066169;
+	color: #fff;
+	padding: 0.5rem 1rem;
+	min-width: 8rem;
+}
+/* Button hover */
+.btn.btn-primary:hover {
+	background-color: #0aa4b1;
+	color: #fff;
+}
+#button-para {
+	margin-bottom: 1.5rem;
+}
+#go-button {
+	margin-right: 2rem;
+}
+/* Center text, search bar, and buttons on mobile */
+@media (max-width: 767px) {
+	#selection-form h3,
+	#selection-form form {
+		text-align: center;
+	}
+	/* Continue to left-align dropdown for readability */
+	.chosen-results {
+		text-align: left;
+	}
+	#button-para {
+		text-align: center;
+	}
+	#go-button {
+		margin-right: 0.8rem;
+	}
+}
+/***** End selection form *****/
+
+
+
+/***** Loader *****/
+/* Area in which to center loader */
+#selection-and-loader {
+	position: relative;
+	min-height: 11rem;
+}
+/* Loader requires an outer div to properly hide when not in use */
+#outer-loader {
+	display: none;
+}
+/* position: absolute to center in next element up DOM 
+with position: relative, in this case #selection-and-loader */
+#loader {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	height: 2.8rem;
+	display: flex;
+	align-items: center;
+}
+.obj {
+	width: 0.4rem;
+	height: 2.8rem;
+	background: #066169;
+	margin: 0 0.25rem;
+	/* Rounded corners */
+	border-radius: 0.6rem;
+	/* Animation */
+	animation-name: loading;
+	animation-duration: 0.8s;
+	animation-iteration-count: infinite;
+}
+.obj:nth-child(2) {
+	animation-delay: 0.1s;
+}
+.obj:nth-child(3) {
+	animation-delay: 0.2s;
+}
+.obj:nth-child(4) {
+	animation-delay: 0.3s;
+}
+.obj:nth-child(5) {
+	animation-delay: 0.4s;
+}
+.obj:nth-child(6) {
+	animation-delay: 0.5s;
+}
+.obj:nth-child(7) {
+	animation-delay: 0.6s;
+}
+.obj:nth-child(8) {
+	animation-delay: 0.7s;
+}
+@keyframes loading {
+	0% {
+		height: 0%;
+	}
+	50% {
+		height: 100%;
+	}
+	100% {
+		height: 0%;
+	}
+}
+/***** End loader *****/
+
+
+
+/***** Report's tabs *****/
+.nav-tabs a {
+	color: #066169 !important;
+}
+.nav-tabs .active > a {
+	font-weight: bold;
+}
+.dropdown-menu hr {
+	margin: 0.25rem 0;
+	background-color: #ddd;
+	height: 1px;
+}
+/* Fatten up dropdowns */
+/* Using !important to override Bootstrap defaults */
+.dropdown-menu a {
+	line-height: 2.75rem !important;
+}
+/***** End report's tabs *****/
+
+
+
+/***** General *****/
+/* Hide giant lists of offerings that are sometimes included in course descriptions */
+/* Ugly + now superfluous given Schedule tab */
+#course-description .table-bordered {
+	display: none;
+}
+/* Glyphicons */
+#glyph-table {
+	height: 40vh;
+	width: 100%;
+	text-align: center;
+	border: 1px solid #ddd;
+	/* Set font-size for ems to reference */
+	font-size: 1rem;
+}
+#glyph-table td {
+	width: 50%;
+}
+/* Glyphs, labels, and text */
+/* Use ems so can scale all by changing parent's font-size */
+#glyph-table td span {
+	font-size: 3.6em;
+}
+#glyph-table td > p {
+	font-size: 1.2em;
+	font-weight: bold;
+}
+#glyph-table .glyph-info {
+	font-size: 1em;
+	color: #066169;
+}
+@media (max-width: 500px) {
+	#glyph-table {
+		height: 50vh;
+		font-size: 0.85rem;
+	}
+}
+/***** End general *****/
+
+
+
+/***** Dashboard *****/
+.dashboard-chart {
+	margin: 2rem 0;
+}
+.dashboard-chart:empty {
+	margin: 0;
+}
+.dashboard-chart-title {
+	text-align: center;
+	font-weight: bold;
+}
+/***** End dashboard *****/
+
+
+
+/***** Maps *****/
+#offering-map,
+#learner-map {
+	float: left;
+	height: 80vh;
+	width: 100%;
+}
+#legend {
+	display: none;
+	float: left;
+	height: 80vh;
+	width: 8%;
+	vertical-align: top;
+}
+#legend-title h4 {
+	height: 5%;
+	text-align: center;
+	text-decoration: underline;
+	margin: 0;
+}
+#legend-contents {
+	height: 95%;
+	display: flex;
+	justify-content: space-around;
+	flex-direction: column;
+	text-align: center;
+}
+.legend-marker {
+	display: block;
+	margin: 0 auto;
+}
+/* Leave space for legend if screen both wide and tall enough to display alongside map */
+@media (min-width: 992px) and (min-height: 600px) {
+	#offering-map,
+	#learner-map {
+		width: 92%;
+	}
+	#legend {
+		display: block;
+	}
+}
+/***** End geodata *****/
+
+
+
+/***** Comments *****/
+/* Prevent screen jump when switching from full -> empty tabs */
+#comments section {
+	min-height: 90vh;
+}
+/* Load More button */
+.more-button-outer {
+	text-align: center;
+}
+.more-button {
+	margin-bottom: 2rem;
+}
+
+/* Filters */
+.star-filter,
+.year-filter {
+	text-align: right;
+}
+.star-filter {
+	margin: 1.25rem 0 0.5rem 0;
+}
+.year-filter {
+	margin: 0.5rem 0 1.25rem 0;
+}
+.star-filter p,
+.year-filter p {
+	display: inline;
+}
+/* Comment text */
+.bob-comment {
+	margin-bottom: 1.5rem;
+}
+/* Avatar */
+.thumbnail.pull-left {
+	width: 7rem;
+	padding: 0;
+	margin-right: 0.5rem;
+	border: 1px solid transparent;
+}
+/* Avatar hover */
+.thumbnail:hover {
+	border-color: #066169 !important;
+}
+/* Error message for instructor comments */
+.instructor-comments p {
+	margin: 1.25rem 0;
+}
+/* Icon indicating if response from new Nanos survey */
+.nanos-indicator {
+	display: inline-block;
+	height: 0.75rem;
+	width: 0.75em;
+	background-color: #d4edda;
+	border-radius: 50%;
+}
+/* Icon indicating if response from old survey */
+.old-survey-indicator {
+	display: inline-block;
+	height: 0.75rem;
+	width: 0.75em;
+	background-color: #f8d7da;
+	border-radius: 50%;
+}
+.nanos-label {
+	font-size: 0.875rem;
+	font-style: italic;
+}
+/* Icon for use within Highcharts titles */
+.nanos-label-chart {
+	font-size: 0.875rem;
+	font-style: italic;
+	font-weight: normal;
+}
+/* Stars */
+.glyphicon-star,
+.glyphicon-star-empty {
+	color: #ffcc33;
+	font-size: 1rem;
+}
+.glyphicon-star-empty {
+	opacity: 0.3;
+}
+/* Date of comment */
+.comment-date {
+	float: right;
+}
+/* Barchart showing percentages for 5 stars, 4 stars, etc. */
+.stars-bar-chart {
+	width: 100%;
+	margin: 2rem 0;
+}
+.stars-bar-chart h3 {
+	color: #066169;
+	margin: 0 0 1.25rem 0;
+}
+.stars-bar-chart {
+	line-height: 2rem;
+}
+.bar-fill {
+	display: inline-block;
+	background-color: #ffcc33;
+	width: 100%;
+	/* Slightly smaller than row height */
+	height: 1.5rem;
+	padding: 0.25rem 0;
+	margin-right: 0.5rem;
+	vertical-align: middle;
+}
+/* On very small screens, shrink size of label to ensure
+bar and label on same line */
+@media (max-width: 400px) {
+	.stars-bar-chart a {
+		font-size: 0.7rem;
+	}
+}
+/***** End comments *****/
+
+
+
+/***** Schedule *****/
+/* Prevent screen jump when switching from full -> empty tabs */
+#schedule-tab {
+	min-height: 90vh;
+}
+/* Legend */
+.schedule-legend {
+	width: 100%;
+	margin: 2rem 0;
+}
+.schedule-legend h3,
+#calendar-page .schedule-legend h3 {
+	color: #066169;
+	margin: 0 0 1.25rem 0;
+}
+.schedule-legend tr {
+	line-height: 2rem;
+	vertical-align: middle;
+}
+/* On mobile, align legend items with their labels and add
+spacing between legend rows */
+@media (max-width: 991px) {
+	.schedule-legend {
+		margin: 1.25rem 0 1.25rem 0;
+		border-collapse: separate;
+		border-spacing: 0 1rem;
+	}
+	.schedule-legend tr {
+		vertical-align: baseline;
+	}
+}
+.color-swatch {
+	height: 1.5rem;
+	width: 1.5rem;
+}
+.swatch-danger {
+	background-color: #f8d7da;
+}
+.swatch-past {
+	background-color: #ddd;
+}
+.swatch-success {
+	background-color: #d4edda;
+}
+.swatch-warning {
+	background-color: #fff3cd;
+}
+/* Schedule rows */
+.schedule-content thead {
+	font-weight: bold;
+}
+.schedule-content tr {
+	min-height: 4rem;
+}
+.schedule-content td {
+	vertical-align: middle !important;
+}
+/* Collapse table into cards on mobile */
+@media (max-width: 1199px) {
+	.schedule-content table,
+	.schedule-content thead,
+	.schedule-content tbody,
+	.schedule-content tr,
+	.schedule-content td {
+		display: block;
+	}
+	.schedule-content thead {
+		display: none;
+	}
+	.schedule-content tr {
+		border: 1px solid #066169;
+		margin-bottom: 1.25rem;
+	}
+	.schedule-content tr {
+		position: relative;
+		padding-left: 8rem;
+	}
+	.schedule-content td {
+		text-align: right;
+	}
+	.schedule-content td::before {
+		content: attr(data-title);
+		position: absolute;
+		left: 0;
+		padding-left: 0.5rem;
+		font-weight: bold;
+	}
+	.schedule-content td:first-child {
+		border-top: none;
+	}
+	.schedule-content td:last-child {
+		border-bottom: none;
+	}
+}
+/***** End schedule *****/

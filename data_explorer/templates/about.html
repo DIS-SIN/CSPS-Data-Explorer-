@@ -1,0 +1,29 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+	<div id="about-page" class="container">
+		<h3>{{ _('This app is the result of a collaborative effort between all three branches of the School.') }}</h3>
+		<p>{{ _('Acknowledgments:') }}</p>
+		<ul>
+			<li>{{ _('Application Management') }}</li>
+			<li>{{ _('Curriculum Management') }}</li>
+			<li>{{ _('Digital Academy') }}</li>
+			<li>{{ _('Learning Evaluation Unit') }}</li>
+			<li>{{ _('Learning Solutions') }}</li>
+		</ul>
+		<p>
+			{{ _('If you encounter any bugs or would like features added, please contact <a href="mailto:sam.louden@canada.ca">Sam Louden</a>.') }}
+		</p>
+		<h4>
+			{{ _('Data in the Dashboards, Maps, and Comments tabs are updated every weekday at 10:30am.') }}
+		</h4>
+		<h4>
+			{{ _('Data in the General tab are updated the first Friday of each month.') }}
+		</h4>
+	</div>
+	<script defer>
+		// Update ::after pseudo-element in navbar
+		$('.navbar-link').removeClass('active');
+		$('#nav-about').addClass('active');
+	</script>
+{% endblock body %}

@@ -1,0 +1,43 @@
+<nav class="navbar navbar-default" id="first-nav">
+	<div class="container">
+		<div class="navbar-header">
+			<!-- FIP -->
+			{% set lang = 'fr' if request.cookies.get('lang', None) == 'fr' else 'en' %}
+			{% if lang == 'fr' %}
+				<a class="navbar-brand" href="https://www.canada.ca/fr.html">
+					<img src="{{ url_for('static', filename='FIPs/canada_white_fr.png') }}" alt="{{ _('GC Logo') }}" />
+				</a>
+			{% else %}
+				<a class="navbar-brand" href="https://www.canada.ca/en.html">
+					<img src="{{ url_for('static', filename='FIPs/canada_white_en.svg') }}" alt="{{ _('GC Logo') }}" />
+				</a>
+			{% endif %}
+			<!-- Button to display contents of .navbar-collapse on mobile -->
+			<button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#menu-items">
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+		</div>
+		<!-- English / Français button -->
+		<ul class="nav navbar-nav navbar-right" id="lang-button-desktop">
+			<li><a href="{{ url_for('main.setlang', lang='en' if lang == 'fr' else 'fr') }}">{{ _('Français') }}</a></li>
+		</ul>
+	</div>
+</nav>
+
+<nav class="navbar navbar-default" id="second-nav">
+	<div class="container">
+		<div class="collapse navbar-collapse" id="menu-items">
+			<ul class="nav navbar-nav navbar-right">
+				<li><a class="navbar-link" id="nav-home" href="{{ url_for('course.home') }}">{{ _('Home') }}</a></li>
+				<li><a class="navbar-link" id="nav-about" href="{{ url_for('main.about') }}">{{ _('About') }}</a></li>
+				<li><a class="navbar-link" id="nav-browse" href="{{ url_for('main.browse') }}">{{ _('Browse') }}</a></li>
+				<li><a class="navbar-link" id="nav-calendar" href="{{ url_for('main.calendar') }}">{{ _('Calendar') }}</a></li>
+				<li><a class="navbar-link" id="nav-departments" href="{{ url_for('main.departments') }}">{{ _('Departments') }}</a></li>
+				<li><hr /></li>
+				<li id="lang-button-mobile"><a href="{{ url_for('main.setlang', lang='en' if lang == 'fr' else 'fr') }}">{{ _('Français') }}</a></li>
+			</ul>
+		</div>
+	</div>
+</nav>

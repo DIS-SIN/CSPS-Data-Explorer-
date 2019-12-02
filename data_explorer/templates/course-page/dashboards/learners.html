@@ -1,0 +1,201 @@
+<!-- Overall Numbers-->
+<table class="table table-hover">
+	<thead>
+		<tr>
+			<td class="text-center" colspan="3"><h4><strong>{{ _('Overall Numbers') }}</strong></h4></td>
+		</tr>
+		<tr>
+			<td><strong>{{ _('Fiscal Year') }}</strong></td>
+			<td class="text-center"><strong>{{ LAST_YEAR }}</strong></td>
+			<td class="text-center"><strong>{{ THIS_YEAR }}</strong></td>
+		</tr>
+	</thead>
+	<tbody>
+		{% for tup1, tup2 in pass_dict.overall_learner_numbers_LY|zip(pass_dict.overall_learner_numbers_TY) %}
+			<tr>
+				<!-- Name -->
+				<!-- Add tooltip explaining difference between Registrations and Unique Learners -->
+				{% if tup1[0] == _('Unique Learners') %}
+					<td>
+						{{ tup1[0] }}
+						<img id="unique-learners-tooltip" class="table-tooltip" src="{{ url_for('static', filename='tooltip.png') }}" alt="{{ _('Tooltip') }}" />
+					</td>
+				{% else %}
+					<td>{{ tup1[0] }}</td>
+				{% endif %}
+				
+				<!-- LAST_YEAR's value -->
+				<td class="text-center">{{ tup1[1] }}</td>
+				
+				<!-- THIS_YEAR's value -->
+				<td class="text-center">{{ tup2[1] }}</td>
+			</tr>
+		{% endfor %}
+	</tbody>
+</table>
+
+<!-- Registrations per Month, THIS_YEAR -->
+<div class="row dashboard-chart">
+	<h4 class="dashboard-chart-title">{{ _('No-Shows and Confirmed Registrations per Month') }}, {{ THIS_YEAR }}</h4>
+	<div id="regs-per-month-this-year" class="col-xs-12"></div>
+</div>
+
+<!-- Registrations per Month, LAST_YEAR -->
+<div class="row dashboard-chart">
+	<h4 class="dashboard-chart-title">{{ _('No-Shows and Confirmed Registrations per Month') }}, {{ LAST_YEAR }}</h4>
+	<div id="regs-per-month-last-year" class="col-xs-12"></div>
+</div>
+
+<div class="row dashboard-chart">
+	<!-- Top 5 Departments, THIS_YEAR -->
+	<div class="col-xs-12 col-md-6">
+		<table class="table table-hover">
+			<thead>
+				<tr>
+					<td class="text-center" colspan="2"><h4><strong>{{ _('Top 5 Departments') }}, {{ THIS_YEAR }}</strong></h4></td>
+				</tr>
+				<tr>
+					<td><strong>{{ _('Name') }}</strong></td>
+					<td class="text-right"><strong>{{ _('Registrations') }}</strong></td>
+				</tr>
+			</thead>
+			<tbody>
+				{% for tup in pass_dict.top_5_depts_TY %}
+					<tr>
+						<td>{{ tup[0] }}</td>
+						<td class="text-right">{{ tup[1] }}</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+	
+	<!-- Top 5 Classifications, THIS_YEAR -->
+	<div class="col-xs-12 col-md-6">
+		<table class="table table-hover">
+			<thead>
+				<tr>
+					<td class="text-center" colspan="2"><h4><strong>{{ _('Top 5 Classifications') }}, {{ THIS_YEAR }}</strong></h4></td>
+				</tr>
+				<tr>
+					<td><strong>{{ _('Name') }}</strong></td>
+					<td class="text-right"><strong>{{ _('Registrations') }}</strong></td>
+				</tr>
+			</thead>
+			<tbody>
+				{% for tup in pass_dict.top_5_classifs_TY %}
+					<tr>
+						<td>{{ tup[0] }}</td>
+						<td class="text-right">{{ tup[1] }}</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</div>
+
+<div class="row dashboard-chart">
+	<!-- Top 5 Departments, LAST_YEAR -->
+	<div class="col-xs-12 col-md-6">
+		<table class="table table-hover">
+			<thead>
+				<tr>
+					<td class="text-center" colspan="2"><h4><strong>{{ _('Top 5 Departments') }}, {{ LAST_YEAR }}</strong></h4></td>
+				</tr>
+				<tr>
+					<td><strong>{{ _('Name') }}</strong></td>
+					<td class="text-right"><strong>{{ _('Registrations') }}</strong></td>
+				</tr>
+			</thead>
+			<tbody>
+				{% for tup in pass_dict.top_5_depts_LY %}
+					<tr>
+						<td>{{ tup[0] }}</td>
+						<td class="text-right">{{ tup[1] }}</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+	
+	<!-- Top 5 Classifications, LAST_YEAR -->
+	<div class="col-xs-12 col-md-6">
+		<table class="table table-hover">
+			<thead>
+				<tr>
+					<td class="text-center" colspan="2"><h4><strong>{{ _('Top 5 Classifications') }}, {{ LAST_YEAR }}</strong></h4></td>
+				</tr>
+				<tr>
+					<td><strong>{{ _('Name') }}</strong></td>
+					<td class="text-right"><strong>{{ _('Registrations') }}</strong></td>
+				</tr>
+			</thead>
+			<tbody>
+				{% for tup in pass_dict.top_5_classifs_LY %}
+					<tr>
+						<td>{{ tup[0] }}</td>
+						<td class="text-right">{{ tup[1] }}</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</div>
+
+<script defer>
+	// Add tooltips
+	$('#unique-learners-tooltip').tooltip({
+		placement: 'bottom',
+		title: "{{ _('<h5>Tip:</h5><p>There may be fewer unique learners than registrations if one or more people retook the course.</p>') }}",
+		animation: true,
+		html: true
+	});
+	
+	// No-Shows and Confirmed Registrations per Month
+	function regsPerMonth(myDiv, regs, noShows) {
+		$(myDiv).highcharts({
+			chart: {type: 'column'},
+			title: {text: ''},
+			xAxis: {type: 'category'},
+			plotOptions: {
+				column: {
+					stacking: 'normal',
+					dataLabels: {enabled: false}
+				}
+			},
+			legend: {enabled: false},
+			credits: {text: ''},
+			yAxis: {
+				title: {text: ''},
+				allowDecimals: false,
+				min: 0,
+				reversedStacks: false
+			},
+			series: [
+				{
+					name: "{{ _('Registrations') }}",
+					data: regs
+				},
+				{
+					name: "{{ _('No-Shows') }}",
+					data: noShows
+				}
+			]
+		});
+	}
+	
+	// Wrap Highcharts functions so can be called only upon activating parent div
+	var learnersChartsFlag = 0;
+	function learnersClosure() {
+		regsPerMonth(
+			'#regs-per-month-this-year',
+			{{ pass_dict.regs_per_month_TY | safe }},
+			{{ pass_dict.no_shows_per_month_TY | safe }}
+		);
+		regsPerMonth(
+			'#regs-per-month-last-year',
+			{{ pass_dict.regs_per_month_LY | safe }},
+			{{ pass_dict.no_shows_per_month_LY | safe }}
+		);
+	}
+</script>

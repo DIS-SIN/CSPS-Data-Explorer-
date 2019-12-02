@@ -1,0 +1,14 @@
+Note: Run these commands from the 'data_explorer' directory
+
+First extract:
+pybabel extract -F translations/babel.cfg -o translations/messages.pot .
+pybabel init -i translations/messages.pot -d translations/ -l fr
+- add translations to messages.po file
+pybabel compile -d translations/
+
+
+Updates:
+pybabel extract -F translations/babel.cfg -o translations/messages.pot .
+pybabel update -i translations/messages.pot -d translations/
+- add new translations to messages.po file
+pybabel compile -d translations/

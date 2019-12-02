@@ -1,0 +1,43 @@
+{% for my_dict in ajax_comments %}
+	<div class="col-xs-12 bob-comment">
+		<div class="media">
+			<!-- User avatar -->
+			<a class="thumbnail pull-left hidden-xs">
+				<img src="{{ url_for('static', filename='avatar.png') }}" alt="{{ _('Avatar') }}" />
+			</a>
+			<div class="media-body">
+				<!-- User classification and offering city -->
+				<h4>
+					{{ my_dict.learner_classification }}, <em>{{ my_dict.offering_city }}</em>
+					{% if my_dict.nanos %}
+						<!-- Icon to indicate answers from new Nanos survey -->
+						<div class="pull-right">
+							<span class="nanos-indicator"></span>
+							<span class="nanos-label">{{ _('Nanos') }}</span>
+						</div>
+					{% endif %}
+				</h4>
+				<!-- Display sentiment score with stars -->
+				<h5>
+					{{ _('Sentiment Score: ') }}
+					{% if my_dict.stars == 5 %}
+						{% for _ in range(5) %}<span class="glyphicon glyphicon-star"></span>{% endfor %}{% for _ in range(0) %}<span class="glyphicon glyphicon-star-empty"></span>{% endfor %}
+					{% elif my_dict.stars == 4 %}
+						{% for _ in range(4) %}<span class="glyphicon glyphicon-star"></span>{% endfor %}{% for _ in range(1) %}<span class="glyphicon glyphicon-star-empty"></span>{% endfor %}
+					{% elif my_dict.stars == 3 %}
+						{% for _ in range(3) %}<span class="glyphicon glyphicon-star"></span>{% endfor %}{% for _ in range(2) %}<span class="glyphicon glyphicon-star-empty"></span>{% endfor %}
+					{% elif my_dict.stars == 2 %}
+						{% for _ in range(2) %}<span class="glyphicon glyphicon-star"></span>{% endfor %}{% for _ in range(3) %}<span class="glyphicon glyphicon-star-empty"></span>{% endfor %}
+					{% elif my_dict.stars == 1 %}
+						{% for _ in range(1) %}<span class="glyphicon glyphicon-star"></span>{% endfor %}{% for _ in range(4) %}<span class="glyphicon glyphicon-star-empty"></span>{% endfor %}
+					{% endif %}
+					<span class="comment-date">{{ my_dict.offering_quarter }} {{ my_dict.offering_fiscal_year }}</span>
+				</h5>
+				<!-- User comment -->
+				<!-- Don't include filter '| safe' in case user submits an XSS attack in survey and Bob's system
+				doesn't properly escape user inputs -->
+				<p>{{ my_dict.comment_text }}</p>
+			</div>
+		</div>
+	</div>
+{% endfor %}

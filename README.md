@@ -1,0 +1,13 @@
+# CSPS-Data-Explorer
+Live course info in Flask
+
+## Environment variables
+* BASIC_AUTH_PASSWORD
+* BASIC_AUTH_USERNAME
+* DB_DATABASE_NAME
+* DB_HOST
+* DB_PASSWORD
+* DB_USER
+* GOOGLE_MAPS_API_KEY
+* REGISTHOR_API_KEY
+* SECRET_KEY
