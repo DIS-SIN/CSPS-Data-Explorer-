@@ -36,16 +36,6 @@ def download_general():
 	return response
 
 
-# Dashboard and Maps tabs built from same table
-@downloads.route('/download-dashboard')
-@auth.login_required
-def download_dashboard():
-	query_func = download_queries.dashboard_tab
-	filename = gettext('Dashboard Tab')
-	response = _create_response(request, query_func, filename)
-	return response
-
-
 @downloads.route('/download-comments')
 @auth.login_required
 def download_comments():

@@ -93,18 +93,12 @@
 		<!-- Dashboards -->
 		<section id="dashboard" class="main-section hide">
 			{% include 'course-page/dashboards/dashboards-main.html' %}
-			<p class="download-raw-outer">
-				{{ download_raw(url_for('downloads.download_dashboard', course_code=pass_dict.course_code), _('Download raw data')) }}
-			</p>
 		</section>
 		
 		<!-- Maps -->
 		<section id="geodata" class="main-section hide">
 			<!-- Dashboard and Maps tabs built from same table -->
 			{% include 'course-page/geodata.html' %}
-			<p class="download-raw-outer">
-				{{ download_raw(url_for('downloads.download_dashboard', course_code=pass_dict.course_code), _('Download raw data')) }}
-			</p>
 		</section>
 		
 		<!-- Comments -->
