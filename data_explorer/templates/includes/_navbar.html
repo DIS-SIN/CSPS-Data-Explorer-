@@ -30,11 +30,11 @@
 	<div class="container">
 		<div class="collapse navbar-collapse" id="menu-items">
 			<ul class="nav navbar-nav navbar-right">
-				<li><a class="navbar-link" id="nav-home" href="{{ url_for('course.home') }}">{{ _('Home') }}</a></li>
-				<li><a class="navbar-link" id="nav-about" href="{{ url_for('main.about') }}">{{ _('About') }}</a></li>
-				<li><a class="navbar-link" id="nav-browse" href="{{ url_for('main.browse') }}">{{ _('Browse') }}</a></li>
-				<li><a class="navbar-link" id="nav-calendar" href="{{ url_for('main.calendar') }}">{{ _('Calendar') }}</a></li>
-				<li><a class="navbar-link" id="nav-departments" href="{{ url_for('main.departments') }}">{{ _('Departments') }}</a></li>
+				<li><a class="navbar-link" id="nav-home" href="{{ url_for('main.home') }}">{{ _('Home') }}</a></li>
+				<li><a class="navbar-link" id="nav-about" href="{{ url_for('main.home') }}">{{ _('About') }}</a></li>
+				<li><a class="navbar-link" id="nav-browse" href="{{ url_for('main.home') }}">{{ _('Browse') }}</a></li>
+				<li><a class="navbar-link" id="nav-calendar" href="{{ url_for('main.home') }}">{{ _('Calendar') }}</a></li>
+				<li><a class="navbar-link" id="nav-departments" href="{{ url_for('main.home') }}">{{ _('Departments') }}</a></li>
 				<li><hr /></li>
 				<li id="lang-button-mobile"><a href="{{ url_for('main.setlang', lang='en' if lang == 'fr' else 'fr') }}">{{ _('Français') }}</a></li>
 			</ul>

@@ -29,32 +29,19 @@
 			<div id="outer-banner">
 				<div id="banner">
 					<div class="container">
-						<!-- Digital Academy logo -->
-						<!-- Logo removed until usage approved by comms -->
-						<!--
-						set lang = 'fr' if request.cookies.get('lang', None) == 'fr' else 'en'
-						if lang == 'fr'
-							<img src=" url_for('static', filename='FIPs/csps_fr.png') " alt=" _('DA Logo') " />
-						else
-							<img src=" url_for('static', filename='FIPs/csps_en.png') " alt=" _('DA Logo') " />
-						endif
-						-->
-						<!-- Intro text -->
 						<h1>{{ _('CSPS Data Explorer') }}</h1>
 					</div>
 				</div>
 			</div>
-			<div class="container">
-				<div class="panel panel-danger">
-					<div class="panel-heading">{{ _('DISCLAIMER') }}</div>
-					<div class="panel-body">{{ _('As of November 22, 2019, the CSPS Data Explorer has lost its access to School data. We hope to resume operations within the coming weeks.') }}</div>
-				</div>
-			</div>
 		</header>
 		
-		{% block body %}
-			<!-- Extended by other templates -->
-		{% endblock %}
+		<!-- Standard DIS out-of-service message -->
+		<div class="container">
+			<div class="panel panel-danger">
+				<div class="panel-heading">{{ _('Lost in the cloud!') }}</div>
+				<div class="panel-body">{{ _("Looks like we're having issues connecting to the server... Thanks for your patience while we work on resolving the issue.") }}</div>
+			</div>
+		</div>
 		
 		<footer class="footer">
 			<div class="container">
