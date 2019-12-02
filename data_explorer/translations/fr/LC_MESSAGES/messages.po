@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  0.9\n"
 "Report-Msgid-Bugs-To: sam.louden@canada.ca\n"
-"POT-Creation-Date: 2019-11-22 13:41-0500\n"
+"POT-Creation-Date: 2019-12-02 17:39-0500\n"
 "PO-Revision-Date: 2019-01-06 13:06-0500\n"
 "Last-Translator: SAM LOUDEN sam.louden@canada.ca\n"
 "Language: fr\n"
@@ -289,21 +289,11 @@ msgstr "Aucun résultat"
 msgid "CSPS Data Explorer"
 msgstr "Explorateur de données de l'EFPC"
 
-#: templates/layout.html:49
-msgid "DISCLAIMER"
-msgstr "AVERTISSEMENT"
-
-#: templates/layout.html:50
-msgid ""
-"As of November 22, 2019, the CSPS Data Explorer has lost its access to "
-"School data. We hope to resume operations within the coming weeks."
-msgstr "À partir du 22 novembre, 2019, l'Explorateur de données de l'EFPC a perdu son accès aux données de l'École. Nous espérons reprendre les opérations dans les semaines à venir."
-
-#: templates/layout.html:62
+#: templates/layout.html:56
 msgid "Top of page"
 msgstr "Haut de la page"
 
-#: templates/layout.html:63
+#: templates/layout.html:57
 msgid "GoC Logo"
 msgstr "Logo du GC"
 
@@ -1179,4 +1169,3 @@ msgstr "Ministères"
 #~ "Les données des onglets Tableaux de "
 #~ "bord, Cartes, et Commentaires sont mises"
 #~ " à jour quotidiennement."
-

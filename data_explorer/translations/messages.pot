@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-11-22 13:41-0500\n"
+"POT-Creation-Date: 2019-12-02 17:39-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -278,21 +278,11 @@ msgstr ""
 msgid "CSPS Data Explorer"
 msgstr ""
 
-#: templates/layout.html:49
-msgid "DISCLAIMER"
-msgstr ""
-
-#: templates/layout.html:50
-msgid ""
-"As of November 22, 2019, the CSPS Data Explorer has lost its access to "
-"School data. We hope to resume operations within the coming weeks."
-msgstr ""
-
-#: templates/layout.html:62
+#: templates/layout.html:56
 msgid "Top of page"
 msgstr ""
 
-#: templates/layout.html:63
+#: templates/layout.html:57
 msgid "GoC Logo"
 msgstr ""
 
