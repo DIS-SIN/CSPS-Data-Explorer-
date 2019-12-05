@@ -6,9 +6,9 @@
 				<img src="{{ url_for('static', filename='avatar.png') }}" alt="{{ _('Avatar') }}" />
 			</a>
 			<div class="media-body">
-				<!-- User classification and offering city -->
+				<!-- Offering city -->
 				<h4>
-					{{ my_dict.learner_classification }}, <em>{{ my_dict.offering_city }}</em>
+					<em>{{ my_dict.offering_city }}</em>
 					{% if my_dict.nanos %}
 						<!-- Icon to indicate answers from new Nanos survey -->
 						<div class="pull-right">

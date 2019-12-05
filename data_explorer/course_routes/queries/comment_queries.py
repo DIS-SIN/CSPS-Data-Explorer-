@@ -33,7 +33,7 @@ class Comments:
 		"""
 		field_name = 'offering_city_{0}'.format(self.lang)
 		query = """
-			SELECT text_answer, learner_classif, {0}, fiscal_year, quarter, stars, nanos
+			SELECT text_answer, {0}, fiscal_year, quarter, stars, nanos
 			FROM comments
 			WHERE
 				course_code = %s
@@ -51,7 +51,7 @@ class Comments:
 									  self.fiscal_year, self.fiscal_year,
 									  self.stars, self.stars,
 									  int(self.limit), int(self.offset)))
-		results = pd.DataFrame(results, columns=['text_answer', 'learner_classif', 'offering_city',
+		results = pd.DataFrame(results, columns=['text_answer', 'offering_city',
 												 'fiscal_year', 'quarter', 'stars', 'nanos'])
 		# Account for learners who didn't submit stars with their comments
 		results['stars'].fillna(0, inplace=True)
@@ -71,18 +71,15 @@ class Comments:
 		# Unpack tuple as some fields require customization
 		for row in self.raw.itertuples(index=False):
 			text_answer = row[0]
-			# Account for 'Unknown' being 'Inconnu' in FR
-			learner_classif = row[1].replace(' - Unknown', '')
-			learner_classif = learner_classif.replace('Unknown', 'Inconnu') if self.lang == 'fr' else learner_classif
 			# Account for English vs French title formatting
-			offering_city = self._format_title(row[2])
-			fiscal_year = row[3]
+			offering_city = self._format_title(row[1])
+			fiscal_year = row[2]
 			# Account for e.g. 'Q2' being 'T2' in FR
-			quarter = row[4].replace('Q', 'T') if self.lang == 'fr' else row[4]
-			stars = int(row[5])
-			nanos = row[6]
+			quarter = row[3].replace('Q', 'T') if self.lang == 'fr' else row[3]
+			stars = int(row[4])
+			nanos = row[5]
 			# Reassemble and append
-			tup = (text_answer, learner_classif, offering_city, fiscal_year, quarter, stars, nanos)
+			tup = (text_answer, offering_city, fiscal_year, quarter, stars, nanos)
 			results_processed.append(tup)
 		return results_processed
 	
